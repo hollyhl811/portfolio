@@ -1,0 +1,794 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Holly Hao | AI Product Manager</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&family=Bitter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #1a1a2e;
+            --accent: #007bbf;
+            --accent-hover: #006a9f;
+            --accent-bg: rgba(0,123,191,0.08);
+            --accent-border: rgba(0,123,191,0.2);
+            --bg: #ffffff;
+            --bg-alt: #f8fafc;
+            --text: #1e293b;
+            --text-secondary: #64748b;
+            --border: #e2e8f0;
+            --radius: 14px;
+            --hero-dark: #1a1a2e;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: 'Bitter', -apple-system, BlinkMacSystemFont, 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
+            color: var(--text); background: var(--bg);
+            line-height: 1.7; -webkit-font-smoothing: antialiased;
+            overflow-x: hidden;
+        }
+
+        /* ── Animations ── */
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(32px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to   { opacity: 1; }
+        }
+        @keyframes slideRight {
+            from { opacity: 0; transform: translateX(-20px); }
+            to   { opacity: 1; transform: translateX(0); }
+        }
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50%      { transform: scale(1.08); }
+        }
+        @keyframes shimmer {
+            0%   { background-position: -200% 0; }
+            100% { background-position: 200% 0; }
+        }
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50%      { transform: translateY(-6px); }
+        }
+        @keyframes countUp { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        .anim-hidden { opacity: 0; transform: translateY(32px); transition: all 0.7s cubic-bezier(0.16, 1, 0.3, 1); }
+        .anim-hidden.visible { opacity: 1; transform: translateY(0); }
+
+        /* ── Nav ── */
+        nav {
+            position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+            background: transparent; border-bottom: 1px solid transparent;
+            transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        nav.scrolled {
+            background: rgba(255,255,255,0.92); backdrop-filter: blur(16px) saturate(1.8);
+            border-bottom-color: var(--border); box-shadow: 0 1px 24px rgba(0,0,0,0.04);
+        }
+
+        .nav-inner {
+            max-width: 1040px; margin: 0 auto; padding: 0 28px;
+            display: flex; align-items: center; justify-content: space-between; height: 64px;
+        }
+        .nav-logo {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 800; font-size: 1.1rem; color: #fff;
+            text-decoration: none; letter-spacing: -0.03em;
+            transition: color 0.4s;
+        }
+        nav.scrolled .nav-logo { color: var(--primary); }
+
+        .nav-right { display: flex; align-items: center; gap: 28px; }
+        .nav-links { display: flex; gap: 32px; list-style: none; }
+        .nav-links a {
+            text-decoration: none; color: rgba(255,255,255,0.8);
+            font-family: 'Montserrat', sans-serif;
+            font-size: 0.85rem; font-weight: 500; transition: color 0.3s;
+            position: relative;
+        }
+        nav.scrolled .nav-links a { color: var(--text-secondary); }
+        .nav-links a::after {
+            content: ''; position: absolute; bottom: -4px; left: 0;
+            width: 0; height: 2px; background: var(--accent);
+            transition: width 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .nav-links a:hover { color: #fff; }
+        nav.scrolled .nav-links a:hover { color: var(--accent); }
+        .nav-links a:hover::after { width: 100%; }
+
+        .lang-toggle {
+            display: flex; border: 1px solid rgba(255,255,255,0.25); border-radius: 8px; overflow: hidden;
+            transition: border-color 0.4s;
+        }
+        nav.scrolled .lang-toggle { border-color: var(--border); }
+        .lang-toggle:hover { border-color: rgba(255,255,255,0.5); }
+        nav.scrolled .lang-toggle:hover { border-color: var(--accent-border); }
+        .lang-btn {
+            background: transparent; border: none; padding: 5px 14px;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 0.78rem; font-weight: 700; cursor: pointer;
+            color: rgba(255,255,255,0.7); transition: all 0.25s; letter-spacing: 0.02em;
+        }
+        nav.scrolled .lang-btn { color: var(--text-secondary); }
+        .lang-btn.active { background: var(--accent); color: #fff; }
+
+        .mobile-toggle {
+            display: none; background: none; border: none;
+            font-size: 1.4rem; cursor: pointer; color: #fff;
+            transition: color 0.4s;
+        }
+        nav.scrolled .mobile-toggle { color: var(--text); }
+
+        /* ── Hero ── */
+        .hero {
+            padding: 160px 28px 100px; margin: 0 auto;
+            text-align: center; position: relative;
+            background: linear-gradient(135deg, #0f172a 0%, #1a1a2e 30%, #1e3a5f 70%, #0f172a 100%);
+            overflow: hidden;
+        }
+        .hero::before {
+            content: ''; position: absolute; inset: 0;
+            background:
+                radial-gradient(ellipse at 20% 50%, rgba(0,123,191,0.15) 0%, transparent 50%),
+                radial-gradient(ellipse at 80% 20%, rgba(0,123,191,0.1) 0%, transparent 40%),
+                radial-gradient(ellipse at 50% 80%, rgba(30,58,95,0.4) 0%, transparent 50%);
+            pointer-events: none; z-index: 1;
+        }
+        .hero::after {
+            content: ''; position: absolute; inset: 0;
+            background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.03'%3E%3Ccircle cx='30' cy='30' r='1'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+            pointer-events: none; z-index: 1;
+        }
+        .hero > * { position: relative; z-index: 2; max-width: 1040px; margin-left: auto; margin-right: auto; }
+
+        .hero-label {
+            display: inline-block; background: rgba(0,123,191,0.2); color: #7dd3fc;
+            border: 1px solid rgba(0,123,191,0.3); padding: 5px 16px;
+            border-radius: 100px; font-family: 'Montserrat', sans-serif;
+            font-size: 0.8rem; font-weight: 600;
+            margin-bottom: 24px; animation: fadeUp 0.6s ease-out;
+        }
+        .hero h1 {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 3rem; font-weight: 800; color: #fff;
+            letter-spacing: -0.04em; line-height: 1.1; margin-bottom: 12px;
+            animation: fadeUp 0.6s ease-out 0.1s both;
+        }
+        .hero h1 span { color: #7dd3fc; }
+
+        .hero-subtitle {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1.15rem; color: rgba(255,255,255,0.75);
+            margin-bottom: 18px; font-weight: 500;
+            animation: fadeUp 0.6s ease-out 0.2s both;
+        }
+
+        .hero-contact {
+            display: flex; justify-content: center; align-items: center;
+            gap: 16px; margin-bottom: 28px; flex-wrap: wrap;
+            animation: fadeUp 0.6s ease-out 0.3s both;
+        }
+        .hero-contact a {
+            display: inline-flex; align-items: center; gap: 5px;
+            font-size: 0.85rem; color: rgba(255,255,255,0.6);
+            text-decoration: none; transition: all 0.25s;
+            padding: 4px 8px; border-radius: 6px;
+        }
+        .hero-contact a:hover { color: #fff; background: rgba(255,255,255,0.1); }
+        .hero-contact .dot { width: 3px; height: 3px; border-radius: 50%; background: rgba(255,255,255,0.2); flex-shrink: 0; }
+        .hero-contact span { font-size: 0.85rem; color: rgba(255,255,255,0.6); }
+
+        .hero-summary {
+            font-size: 0.98rem; color: rgba(255,255,255,0.6);
+            max-width: 620px; line-height: 1.85; margin: 0 auto 36px;
+            animation: fadeUp 0.6s ease-out 0.4s both;
+        }
+
+        .hero-actions {
+            display: flex; gap: 12px; flex-wrap: wrap; justify-content: center;
+            animation: fadeUp 0.6s ease-out 0.5s both;
+        }
+
+        .btn {
+            display: inline-flex; align-items: center; gap: 7px;
+            padding: 11px 24px; border-radius: 10px; font-size: 0.88rem;
+            font-weight: 600; text-decoration: none; transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            cursor: pointer; border: none; position: relative; overflow: hidden;
+        }
+        .btn::before {
+            content: ''; position: absolute; inset: 0;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.15), transparent);
+            background-size: 200% 100%; opacity: 0; transition: opacity 0.3s;
+        }
+        .btn:hover::before { opacity: 1; animation: shimmer 1.5s infinite; }
+
+        .btn-primary { background: var(--accent); color: #fff; box-shadow: 0 2px 12px rgba(0,123,191,0.25); }
+        .btn-primary:hover { background: var(--accent-hover); transform: translateY(-2px); box-shadow: 0 4px 20px rgba(0,123,191,0.35); }
+
+        .btn-outline { background: rgba(255,255,255,0.1); color: #fff; border: 1.5px solid rgba(255,255,255,0.25); backdrop-filter: blur(8px); }
+        .btn-outline:hover { border-color: rgba(255,255,255,0.5); color: #fff; background: rgba(255,255,255,0.15); transform: translateY(-2px); }
+
+        /* ── Direction Tabs ── */
+        .direction-tabs {
+            display: flex; justify-content: center; gap: 8px;
+            padding: 52px 28px 0; max-width: 1040px; margin: 0 auto;
+        }
+        .direction-tab {
+            padding: 9px 22px; border-radius: 100px; font-size: 0.84rem;
+            font-weight: 600; cursor: pointer; border: 1.5px solid var(--border);
+            background: transparent; color: var(--text-secondary);
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .direction-tab:hover { border-color: var(--accent-border); color: var(--accent); }
+        .direction-tab.active {
+            background: var(--accent); color: #fff; border-color: var(--accent);
+            box-shadow: 0 2px 12px rgba(0,123,191,0.2);
+        }
+
+        /* ── Sections ── */
+        section { padding: 56px 28px; max-width: 1040px; margin: 0 auto; }
+
+        .section-label {
+            font-size: 0.76rem; font-weight: 700; color: var(--accent);
+            text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 8px;
+        }
+        .section-title {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1.5rem; font-weight: 700; color: var(--primary);
+            margin-bottom: 36px; letter-spacing: -0.02em;
+        }
+
+        .divider { border: none; border-top: 1px solid var(--border); margin: 0 auto; max-width: 1040px; }
+        .hero-divider { border: none; height: 4px; background: linear-gradient(90deg, var(--accent), #7dd3fc); margin: 0; }
+
+        /* ── Stats ── */
+        .stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+        .stat-card {
+            background: var(--bg-alt); border: 1px solid var(--border);
+            border-radius: var(--radius); padding: 24px 16px; text-align: center;
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .stat-card:hover {
+            transform: translateY(-4px); border-color: var(--accent-border);
+            box-shadow: 0 8px 24px rgba(0,123,191,0.08);
+        }
+        .stat-number { font-size: 1.8rem; font-weight: 800; color: var(--accent); letter-spacing: -0.02em; }
+        .stat-label { font-size: 0.8rem; color: var(--text-secondary); margin-top: 4px; }
+
+        /* ── Experience ── */
+        .timeline { position: relative; padding-left: 32px; }
+        .timeline::before {
+            content: ''; position: absolute; left: 7px; top: 12px; bottom: 12px;
+            width: 2px; background: linear-gradient(to bottom, var(--accent), #7dd3fc, var(--border));
+            border-radius: 2px;
+        }
+        .timeline-item { position: relative; margin-bottom: 44px; }
+        .timeline-item:last-child { margin-bottom: 0; }
+
+        .timeline-dot {
+            position: absolute; left: -32px; top: 6px; width: 16px; height: 16px;
+            border-radius: 50%; background: var(--bg); border: 3px solid var(--accent);
+            z-index: 1; transition: all 0.3s;
+        }
+        .timeline-item:hover .timeline-dot {
+            background: var(--accent); box-shadow: 0 0 0 4px var(--accent-bg);
+        }
+
+        .timeline-header {
+            display: flex; justify-content: space-between; align-items: flex-start;
+            margin-bottom: 8px; flex-wrap: wrap; gap: 4px;
+        }
+        .timeline-company-wrapper { display: flex; align-items: center; gap: 10px; }
+        .company-logo {
+            width: 32px; height: 32px; border-radius: 8px; display: flex;
+            align-items: center; justify-content: center; flex-shrink: 0;
+            font-family: 'Montserrat', sans-serif; font-size: 0.7rem; font-weight: 800;
+            color: #fff; letter-spacing: 0.02em;
+        }
+        .company-logo.dmall { background: linear-gradient(135deg, #e63946, #d62839); }
+        .company-logo.pwc { background: linear-gradient(135deg, #d93025, #b71c1c); }
+        .company-logo.deloitte { background: linear-gradient(135deg, #1565c0, #0d47a1); }
+        .timeline-company { font-family: 'Montserrat', sans-serif; font-size: 1.05rem; font-weight: 700; color: var(--primary); }
+        .timeline-role { font-size: 0.9rem; color: var(--text-secondary); font-weight: 500; margin-top: 2px; }
+        .timeline-date {
+            font-size: 0.8rem; color: var(--text-secondary); white-space: nowrap;
+            background: var(--bg-alt); padding: 3px 10px; border-radius: 6px; font-weight: 500;
+        }
+
+        .timeline-bullets { list-style: none; margin-top: 10px; }
+        .timeline-bullets li {
+            font-size: 0.9rem; color: var(--text-secondary); line-height: 1.75;
+            padding-left: 18px; position: relative; margin-bottom: 7px;
+            transition: color 0.2s;
+        }
+        .timeline-bullets li::before {
+            content: ''; position: absolute; left: 0; top: 11px;
+            width: 6px; height: 6px; border-radius: 50%;
+            background: var(--accent-bg); border: 1.5px solid var(--accent-border);
+            transition: all 0.2s;
+        }
+        .timeline-bullets li:hover { color: var(--text); }
+        .timeline-bullets li:hover::before { background: var(--accent); border-color: var(--accent); }
+        .timeline-bullets li strong { color: var(--text); font-weight: 600; }
+
+        .dir.dimmed { opacity: 0.38; transition: opacity 0.4s ease; }
+
+        .timeline-achievements {
+            display: flex; flex-wrap: wrap; gap: 8px; margin-top: 14px;
+        }
+        .achievement-badge {
+            display: inline-flex; align-items: center; gap: 5px;
+            background: var(--accent-bg); border: 1px solid var(--accent-border);
+            padding: 5px 12px; border-radius: 8px;
+            font-size: 0.78rem; font-weight: 600; color: var(--accent);
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        .timeline-projects {
+            margin-top: 18px; border-top: 1px dashed var(--border); padding-top: 14px;
+        }
+        .timeline-projects-label {
+            font-size: 0.72rem; font-weight: 700; color: var(--accent);
+            text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 10px;
+            font-family: 'Montserrat', sans-serif;
+        }
+        .timeline-project {
+            background: var(--bg-alt); border: 1px solid var(--border);
+            border-radius: 10px; padding: 14px 16px; margin-bottom: 8px;
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .timeline-project:last-child { margin-bottom: 0; }
+        .timeline-project:hover { border-color: var(--accent-border); box-shadow: 0 4px 16px rgba(0,123,191,0.06); }
+        .timeline-project-tag {
+            display: inline-block; background: var(--accent-bg); color: var(--accent);
+            border: 1px solid var(--accent-border); padding: 2px 8px;
+            border-radius: 100px; font-size: 0.66rem; font-weight: 600; margin-bottom: 6px;
+        }
+        .timeline-project-title { font-size: 0.86rem; font-weight: 700; color: var(--primary); margin-bottom: 4px; }
+        .timeline-project-desc { font-size: 0.8rem; color: var(--text-secondary); line-height: 1.65; margin-bottom: 6px; }
+        .timeline-project-metric { font-size: 0.76rem; font-weight: 700; color: var(--accent); }
+
+        /* ── Projects ── */
+        .projects-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }
+        .project-card {
+            background: var(--bg); border: 1px solid var(--border);
+            border-radius: var(--radius); padding: 24px;
+            transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+            position: relative; overflow: hidden;
+        }
+        .project-card::before {
+            content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+            background: linear-gradient(90deg, var(--accent), #7dd3fc);
+            transform: scaleX(0); transform-origin: left;
+            transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .project-card:hover {
+            transform: translateY(-4px); border-color: var(--accent-border);
+            box-shadow: 0 12px 32px rgba(0,123,191,0.1);
+        }
+        .project-card:hover::before { transform: scaleX(1); }
+
+        .project-tag {
+            display: inline-block; background: var(--accent-bg); color: var(--accent);
+            border: 1px solid var(--accent-border); padding: 3px 10px;
+            border-radius: 100px; font-size: 0.7rem; font-weight: 600; margin-bottom: 12px;
+        }
+        .project-title { font-size: 0.98rem; font-weight: 700; color: var(--primary); margin-bottom: 8px; }
+        .project-desc { font-size: 0.86rem; color: var(--text-secondary); line-height: 1.7; margin-bottom: 12px; }
+        .project-metric {
+            font-size: 0.8rem; font-weight: 700; color: var(--accent);
+            display: inline-flex; align-items: center; gap: 4px;
+        }
+
+        /* ── Skills ── */
+        .skills-group { margin-bottom: 24px; }
+        .skills-group:last-child { margin-bottom: 0; }
+        .skills-group-title { font-size: 0.82rem; font-weight: 700; color: var(--primary); margin-bottom: 10px; }
+        .skills-tags { display: flex; flex-wrap: wrap; gap: 8px; }
+        .skill-tag {
+            background: var(--bg); border: 1px solid var(--border);
+            padding: 5px 14px; border-radius: 8px; font-size: 0.8rem;
+            color: var(--text-secondary); font-weight: 500;
+            transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .skill-tag:hover {
+            border-color: var(--accent); color: var(--accent);
+            background: var(--accent-bg); transform: translateY(-2px);
+        }
+
+        /* ── Education ── */
+        .edu-card {
+            background: var(--bg-alt); border: 1px solid var(--border);
+            border-radius: var(--radius); padding: 28px; margin-bottom: 14px;
+            transition: all 0.3s;
+        }
+        .edu-card:hover { border-color: var(--accent-border); transform: translateX(4px); box-shadow: -4px 0 0 0 var(--accent); }
+        .edu-card:last-child { margin-bottom: 0; }
+        .edu-header {
+            display: flex; justify-content: space-between; align-items: flex-start;
+            margin-bottom: 6px; flex-wrap: wrap; gap: 4px;
+        }
+        .edu-school { font-size: 1rem; font-weight: 700; color: var(--primary); }
+        .edu-degree { font-size: 0.9rem; color: var(--text-secondary); }
+        .edu-date { font-size: 0.8rem; color: var(--text-secondary); white-space: nowrap; font-weight: 500; }
+        .edu-detail { font-size: 0.84rem; color: var(--text-secondary); margin-top: 6px; }
+        .edu-highlight {
+            display: inline-block; background: var(--accent-bg); color: var(--accent);
+            border: 1px solid var(--accent-border);
+            padding: 3px 12px; border-radius: 6px; font-size: 0.76rem;
+            font-weight: 700; margin-top: 8px;
+        }
+
+        /* ── Footer ── */
+        footer {
+            text-align: center; padding: 48px 28px; font-size: 0.8rem;
+            color: var(--text-secondary); border-top: 1px solid var(--border);
+            max-width: 1040px; margin: 0 auto;
+            background: var(--bg-alt);
+        }
+
+        /* ── Responsive ── */
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 2rem; }
+            .hero-subtitle { font-size: 1rem; }
+            .stats-grid { grid-template-columns: repeat(2, 1fr); }
+            .projects-grid { grid-template-columns: 1fr; }
+            .nav-links { display: none; }
+            .mobile-toggle { display: block; }
+            .nav-links.open {
+                display: flex; flex-direction: column; position: absolute;
+                top: 64px; left: 0; right: 0; background: rgba(255,255,255,0.98);
+                backdrop-filter: blur(16px); padding: 16px 28px;
+                border-bottom: 1px solid var(--border); gap: 16px;
+            }
+            .direction-tabs { flex-wrap: wrap; }
+        }
+
+        @media print { nav { display: none; } .hero { padding-top: 0; } section { padding: 30px 0; } }
+    </style>
+</head>
+<body>
+
+<!-- Navigation -->
+<nav id="nav">
+    <div class="nav-inner">
+        <a href="#" class="nav-logo">Holly Hao</a>
+        <div class="nav-right">
+            <ul class="nav-links" id="navLinks">
+                <li><a href="#experience" data-zh="工作经历" data-en="Experience">Experience</a></li>
+                <li><a href="#skills" data-zh="技能" data-en="Skills">Skills</a></li>
+                <li><a href="#education" data-zh="教育" data-en="Education">Education</a></li>
+            </ul>
+            <div class="lang-toggle">
+                <button class="lang-btn active" data-lang="en">EN</button>
+                <button class="lang-btn" data-lang="zh">中</button>
+            </div>
+            <button class="mobile-toggle" onclick="document.getElementById('navLinks').classList.toggle('open')">☰</button>
+        </div>
+    </div>
+</nav>
+
+<!-- Hero -->
+<header class="hero">
+    <div class="hero-label" data-zh="开放求职中" data-en="Open to Opportunities">Open to Opportunities</div>
+    <h1>Holly Hao <span>/ 郝莲</span></h1>
+    <p class="hero-subtitle" id="heroSubtitle" data-zh="AI 产品经理 · 企业级系统架构师" data-en="AI Product Manager &middot; Enterprise Systems Architect">AI Product Manager &middot; Enterprise Systems Architect</p>
+    <div class="hero-contact">
+        <a href="mailto:hhao68601@gmail.com">&#9993; hhao68601@gmail.com</a>
+        <span class="dot"></span>
+        <a href="https://www.linkedin.com/in/lian-hao-66440a149/" target="_blank">in LinkedIn</a>
+        <span class="dot"></span>
+        <span style="font-size: 0.85rem;">&#9742; (+86) 159-7216-8601</span>
+    </div>
+    <p class="hero-summary" id="heroSummary" data-zh="PMP 认证产品经理，拥有四大咨询背景与 AI/LLM 产品落地经验。主导东南亚最大零售集团的 WMS 全链路产品设计，推动港股上市公司的 AI Agent 自动化战略项目。UIUC 信息管理硕士（GPA 3.9/4.0，专业前 5%）。" data-en="PMP-certified product manager with Big 4 consulting background and hands-on experience in AI/LLM product development. Led end-to-end WMS product design for Southeast Asia's largest retail conglomerate and drove AI Agent automation strategy at a HK-listed company. UIUC Information Management MS (GPA 3.9/4.0, Top 5%).">PMP-certified product manager with Big 4 consulting background and hands-on experience in AI/LLM product development. Led end-to-end WMS product design for Southeast Asia's largest retail conglomerate and drove AI Agent automation strategy at a HK-listed company. UIUC Information Management MS (GPA 3.9/4.0, Top 5%).</p>
+    <div class="hero-actions">
+        <a href="mailto:hhao68601@gmail.com" class="btn btn-primary" data-zh="&#9993; 联系我" data-en="&#9993; Get in Touch">&#9993; Get in Touch</a>
+        <a href="Holly_Hao_Resume.pdf" download class="btn btn-outline" data-zh="⬇ 下载简历" data-en="⬇ Download Resume">⬇ Download Resume</a>
+        <a href="#experience" class="btn btn-outline" data-zh="查看经历" data-en="View Experience">View Experience</a>
+    </div>
+</header>
+
+<hr class="hero-divider">
+
+<!-- Direction Tabs -->
+<div class="direction-tabs anim-hidden">
+    <button class="direction-tab active" data-dir="ai-pm">AI Product Manager</button>
+    <button class="direction-tab" data-dir="data">Data Product</button>
+    <button class="direction-tab" data-dir="consulting">Business Consulting</button>
+</div>
+
+<!-- Stats -->
+<section>
+    <div class="stats-grid">
+        <div class="stat-card anim-hidden">
+            <div class="stat-number">5+</div>
+            <div class="stat-label" data-zh="年工作经验" data-en="Years Experience">Years Experience</div>
+        </div>
+        <div class="stat-card anim-hidden">
+            <div class="stat-number">3.9</div>
+            <div class="stat-label">GPA / 4.0</div>
+        </div>
+        <div class="stat-card anim-hidden">
+            <div class="stat-number">300+</div>
+            <div class="stat-label" data-zh="页英文蓝图文档" data-en="Pages Blueprint Docs">Pages Blueprint Docs</div>
+        </div>
+        <div class="stat-card anim-hidden">
+            <div class="stat-number">50+</div>
+            <div class="stat-label" data-zh="场全英文研讨会" data-en="English Workshops Led">English Workshops Led</div>
+        </div>
+    </div>
+</section>
+
+<hr class="divider">
+
+<!-- Experience -->
+<section id="experience">
+    <div class="section-label anim-hidden" data-zh="职业经历" data-en="Career">Career</div>
+    <h2 class="section-title anim-hidden" data-zh="工作经历" data-en="Professional Experience">Professional Experience</h2>
+
+    <div class="timeline">
+        <!-- Dmall -->
+        <div class="timeline-item anim-hidden">
+            <div class="timeline-dot"></div>
+            <div class="timeline-header">
+                <div>
+                    <div class="timeline-company-wrapper"><div class="company-logo dmall">DM</div><div class="timeline-company" data-zh="多点数智 Dmall Inc. (02586.HK)" data-en="Dmall Inc. (02586.HK)">Dmall Inc. (02586.HK)</div></div>
+                    <div class="timeline-role" data-zh="海外实施 &amp; AI 产品经理" data-en="Overseas Implementation &amp; AI Product Manager">Overseas Implementation &amp; AI Product Manager</div>
+                </div>
+                <div class="timeline-date">2025.08 - Present</div>
+            </div>
+            <ul class="timeline-bullets">
+                <li data-zh="主导海外版 <strong>WMS 产品架构设计</strong>，负责从需求调研、业务蓝图到 PRD 交付的全生命周期管理" data-en="Led <strong>WMS product architecture design</strong> for overseas markets, managing full lifecycle from requirement gathering to PRD delivery">Led <strong>WMS product architecture design</strong> for overseas markets, managing full lifecycle from requirement gathering to PRD delivery</li>
+                <li class="dir dir-ai-pm dir-data" data-zh="核心推动 <strong>AI Agent 业务自动化</strong>战略项目，设计 Multi-Agent 协作机制，推动 AI 从辅助分析向自动执行转型" data-en="Core driver of <strong>AI Agent business automation</strong> strategy — designed Multi-Agent collaboration mechanisms, transitioning AI from assisted analysis to automated execution">Core driver of <strong>AI Agent business automation</strong> strategy — designed Multi-Agent collaboration mechanisms, transitioning AI from assisted analysis to automated execution</li>
+                <li class="dir dir-ai-pm" data-zh="推动仓储业务数据向 <strong>AI-Ready Data</strong> 转化，孵化智能库存预警模块，大幅降低人工干预成本" data-en="Transformed warehouse data into <strong>AI-Ready Data</strong>, incubating intelligent inventory alert modules that reduced manual intervention costs">Transformed warehouse business data into <strong>"AI-Ready Data"</strong>, successfully incubating intelligent inventory alert modules that reduced manual intervention costs</li>
+                <li class="dir dir-data dir-consulting" data-zh="基于业务场景设计<strong>数据驱动的功能模块</strong>，构建关键业务指标体系，支持运营决策与绩效评估" data-en="Designed <strong>data-driven functional modules</strong> and KPI systems supporting operational decision-making and performance evaluation">Designed data-driven functional modules supporting operational decision-making and process optimization</li>
+                <li class="dir dir-consulting" data-zh="组织并主持跨部门项目会议，协调研发、测试及业务团队高效协同，管理项目里程碑与迭代节奏" data-en="Organized cross-department project meetings, coordinating R&amp;D, testing and business teams; managed project milestones and iteration cadence">Organized cross-department project meetings, coordinating R&D, testing and business teams; managed project milestones and iteration cadence</li>
+            </ul>
+            <div class="timeline-achievements">
+                <span class="achievement-badge" data-zh="AI Agent POC → 业务落地" data-en="AI Agent: POC → Production">AI Agent: POC → Production</span>
+                <span class="achievement-badge" data-zh="300+ 页英文蓝图" data-en="300+ Pages Blueprint">300+ Pages Blueprint</span>
+                <span class="achievement-badge" data-zh="50+ 场研讨会" data-en="50+ Workshops Led">50+ Workshops Led</span>
+            </div>
+            <div class="timeline-projects">
+                <div class="timeline-projects-label" data-zh="核心项目" data-en="Key Projects">Key Projects</div>
+                <div class="timeline-project dir dir-ai-pm">
+                    <span class="timeline-project-tag" data-zh="AI / 多智能体" data-en="AI / Multi-Agent">AI / Multi-Agent</span>
+                    <div class="timeline-project-title" data-zh="AI Agent 业务流程自动化" data-en="AI Agent Business Automation">AI Agent Business Automation</div>
+                    <div class="timeline-project-desc" data-zh="主导 AI Agent 自动化战略项目整体规划，设计多角色智能体任务分工与协同链路，实现从数据分析到业务动作触发的自动化闭环。" data-en="Directed the AI Agent automation strategy. Designed multi-role agent collaboration workflows, achieving automated closed-loop from data analysis to action triggering via system API invocations.">Directed the AI Agent automation strategy. Designed multi-role agent collaboration workflows, achieving automated closed-loop from data analysis to action triggering via system API invocations.</div>
+                    <div class="timeline-project-metric" data-zh="成功推动 POC 到业务落地" data-en="Drove project from POC to business launch">Drove project from POC to business launch</div>
+                </div>
+                <div class="timeline-project">
+                    <span class="timeline-project-tag" data-zh="企业系统" data-en="Enterprise Systems">Enterprise Systems</span>
+                    <div class="timeline-project-title" data-zh="WMS 蓝图设计 — 菲律宾 SM 集团" data-en="WMS Blueprint — SM Group (Philippines)">WMS Blueprint — SM Group (Philippines)</div>
+                    <div class="timeline-project-desc" data-zh="为菲律宾最大商业集团设计 WMS 产品蓝图，主导 50+ 场全英文需求研讨会，推动从收货到发货的全链路数字化。输出超 300 页全英文系统蓝图文档。" data-en="Led WMS blueprint design for the Philippines' largest retail conglomerate. Conducted 50+ English workshops and delivered 300+ pages of blueprint documentation, digitalizing end-to-end warehouse operations.">Led WMS blueprint design for the Philippines' largest retail conglomerate. Conducted 50+ English workshops and delivered 300+ pages of blueprint documentation, digitalizing end-to-end warehouse operations.</div>
+                    <div class="timeline-project-metric" data-zh="目标：仓库作业效率提升 30%+" data-en="Target: 30%+ warehouse efficiency improvement">Target: 30%+ warehouse efficiency improvement</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- PwC -->
+        <div class="timeline-item anim-hidden">
+            <div class="timeline-dot"></div>
+            <div class="timeline-header">
+                <div>
+                    <div class="timeline-company-wrapper"><div class="company-logo pwc">PwC</div><div class="timeline-company" data-zh="普华永道 PwC" data-en="PwC (PricewaterhouseCoopers)">PwC (PricewaterhouseCoopers)</div></div>
+                    <div class="timeline-role" data-zh="税务技术顾问" data-en="Tax Technology Consultant">Tax Technology Consultant</div>
+                </div>
+                <div class="timeline-date">2024.06 - 2024.08</div>
+            </div>
+            <ul class="timeline-bullets">
+                <li data-zh="参与跨国税务系统 <strong>智能化改造</strong>，协调印度、英国团队梳理跨系统数据流与业务逻辑" data-en="Participated in multinational tax system <strong>intelligent transformation</strong>, coordinating with India and UK teams on cross-system data flow analysis">Participated in multinational tax system <strong>intelligent transformation</strong>, coordinating with India and UK teams on cross-system data flow analysis</li>
+                <li class="dir dir-ai-pm dir-data" data-zh="建立 <strong>「响应速度-准确率」双维评估标准</strong>，通过 SQL 分析用户交互数据，支撑大模型从 ChatGPT 向 DeepSeek-R1 的平滑迁移" data-en="Established <strong>dual-dimension (Speed vs. Accuracy) evaluation standard</strong> via SQL, supporting the smooth migration from ChatGPT to DeepSeek-R1">Established <strong>dual-dimension (Speed vs. Accuracy) evaluation standard</strong> via SQL, supporting the smooth migration from ChatGPT to DeepSeek-R1</li>
+                <li class="dir dir-consulting" data-zh="提炼业务需求、技术卡点及解决方案等核心洞察，形成<strong>数据化报告辅助跨国管理层决策</strong>" data-en="Extracted critical insights on requirements, technical bottlenecks and solutions; formulated <strong>data-driven reports for multinational management decision-making</strong>">Extracted critical insights on requirements, technical bottlenecks and solutions; formulated data-driven reports for multinational management decision-making</li>
+                <li data-zh="建立高效的 <strong>跨时区进度追踪</strong>闭环，保障 3 个关键跨国团队 100% 按时交付" data-en="Established efficient <strong>cross-timezone progress tracking</strong>, ensuring 100% on-time delivery for 3 key multinational teams">Established efficient <strong>cross-timezone progress tracking</strong> mechanisms, ensuring 100% on-time delivery for 3 key multinational teams</li>
+            </ul>
+            <div class="timeline-achievements">
+                <span class="achievement-badge" data-zh="响应效率提升 40%" data-en="40% Efficiency Gain">40% Efficiency Gain</span>
+                <span class="achievement-badge" data-zh="3 团队 100% 按时交付" data-en="100% On-time × 3 Teams">100% On-time × 3 Teams</span>
+            </div>
+            <div class="timeline-projects">
+                <div class="timeline-projects-label" data-zh="核心项目" data-en="Key Projects">Key Projects</div>
+                <div class="timeline-project dir dir-ai-pm dir-data">
+                    <span class="timeline-project-tag" data-zh="大模型 / 数据分析" data-en="LLM / Data Analytics">LLM / Data Analytics</span>
+                    <div class="timeline-project-title" data-zh="大模型迁移 — 跨境税务问答升级" data-en="LLM Migration — Regulatory Q&amp;A Upgrade">LLM Migration — Regulatory Q&amp;A Upgrade</div>
+                    <div class="timeline-project-desc" data-zh="建立「响应速度-准确率」双维 SQL 评估标准，搭建 Tableau 实时看板，协调跨时区团队完成 ChatGPT 向 DeepSeek-R1 的平滑迁移。" data-en="Established dual-dimension SQL evaluation standard. Built Tableau dashboards and aligned cross-timezone teams for the ChatGPT to DeepSeek-R1 migration.">Established dual-dimension SQL evaluation standard. Built Tableau dashboards and aligned cross-timezone teams for the ChatGPT to DeepSeek-R1 migration.</div>
+                    <div class="timeline-project-metric" data-zh="业务响应效率提升 40%" data-en="40% response efficiency improvement">40% improvement in business response efficiency</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Deloitte -->
+        <div class="timeline-item anim-hidden">
+            <div class="timeline-dot"></div>
+            <div class="timeline-header">
+                <div>
+                    <div class="timeline-company-wrapper"><div class="company-logo deloitte">D</div><div class="timeline-company" data-zh="德勤 Deloitte Consulting" data-en="Deloitte Consulting">Deloitte Consulting</div></div>
+                    <div class="timeline-role" data-zh="税务科技咨询顾问" data-en="Tax Technology Consulting Advisor">Tax Technology Consulting Advisor</div>
+                </div>
+                <div class="timeline-date">2021.07 - 2023.04</div>
+            </div>
+            <ul class="timeline-bullets">
+                <li data-zh="作为核心成员参与大型企业 <strong>「税务 + AI」数字化转型</strong>项目，深度调研并重塑业务流程蓝图" data-en="Core member of enterprise <strong>Tax + AI digital transformation</strong> projects, conducting deep business analysis and process redesign">Core member of enterprise <strong>Tax + AI digital transformation</strong> projects, conducting deep business analysis and process redesign</li>
+                <li class="dir dir-data dir-consulting" data-zh="主导大规模数据验证、清洗与 <strong>跨系统 ETL 整合</strong>，通过数据分析精准定位业务流程卡点" data-en="Led large-scale data validation, cleansing and <strong>cross-system ETL integration</strong>, using data analysis to identify process bottlenecks">Led large-scale data validation, cleansing, and <strong>cross-system ETL integration</strong>, using data analysis to identify process bottlenecks</li>
+                <li class="dir dir-consulting" data-zh="设计并推动 <strong>RPA 自动化流程</strong>，为 1000+ 子公司实现税务申报自动化，人工错误率降低 25%" data-en="Designed and deployed <strong>RPA automation workflows</strong> across 1,000+ subsidiaries, reducing manual error rate by 25%">Designed and deployed <strong>RPA automation workflows</strong> across 1,000+ subsidiaries, reducing manual error rate by 25%</li>
+                <li class="dir dir-ai-pm dir-data" data-zh="统筹业务部门与技术产研团队，建立敏捷跨部门沟通机制，保障多系统模块 <strong>100% 高质量上线</strong>" data-en="Coordinated business and technical teams with agile communication, ensuring <strong>100% high-quality implementation</strong> of multiple system modules">Coordinated business and technical teams, establishing agile cross-department communication, ensuring <strong>100% high-quality implementation</strong> of multiple system modules</li>
+            </ul>
+            <div class="timeline-achievements">
+                <span class="achievement-badge" data-zh="错误率降低 25%" data-en="25% Error Reduction">25% Error Reduction</span>
+                <span class="achievement-badge" data-zh="1000+ 子公司自动化" data-en="1,000+ Subs Automated">1,000+ Subs Automated</span>
+            </div>
+            <div class="timeline-projects">
+                <div class="timeline-projects-label" data-zh="核心项目" data-en="Key Projects">Key Projects</div>
+                <div class="timeline-project dir dir-consulting">
+                    <span class="timeline-project-tag" data-zh="RPA / 自动化" data-en="RPA / Automation">RPA / Automation</span>
+                    <div class="timeline-project-title" data-zh="RPA 流程优化 — 大型汽车央企" data-en="RPA Optimization — State-Owned Auto Group">RPA Process Optimization — State-Owned Auto Group</div>
+                    <div class="timeline-project-desc" data-zh="为 1000+ 家子公司设计并实施定制化 RPA 税务申报流程，集成自动化数据校验与风险预警模块。" data-en="Designed RPA tax-filing workflows across 1,000+ subsidiaries with automated data validation and risk alert modules.">Designed RPA tax-filing workflows across 1,000+ subsidiaries with automated data validation and risk alert modules.</div>
+                    <div class="timeline-project-metric" data-zh="人工错误率降低 25%" data-en="25% error rate reduction">25% reduction in manual error rate</div>
+                </div>
+                <div class="timeline-project dir dir-data dir-consulting">
+                    <span class="timeline-project-tag" data-zh="数字化转型" data-en="Digital Transformation">Digital Transformation</span>
+                    <div class="timeline-project-title" data-zh="税务系统数字化 — 大型国企集团" data-en="Tax System Digitization — State-Owned Enterprise">Tax System Digitization — State-Owned Enterprise</div>
+                    <div class="timeline-project-desc" data-zh="负责核心模块需求分析与方案设计，利用 SQL 与帆软优化系统数据处理逻辑，设计高并发数据校验机制，推动自动化流程落地。" data-en="Led core module requirement analysis and solution design. Optimized data processing with SQL and FanRuan, designed high-concurrency validation mechanisms, and drove automation implementation.">Led core module requirement analysis and solution design. Optimized data processing with SQL and FanRuan, designed high-concurrency validation mechanisms, and drove automation implementation.</div>
+                    <div class="timeline-project-metric" data-zh="大规模数据验证准确率显著提升" data-en="Significantly improved large-scale data validation accuracy">Significantly improved large-scale data validation accuracy</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<hr class="divider">
+
+<!-- Skills -->
+<section id="skills">
+    <div class="section-label anim-hidden" data-zh="核心能力" data-en="Capabilities">Capabilities</div>
+    <h2 class="section-title anim-hidden" data-zh="技能与工具" data-en="Skills &amp; Tools">Skills &amp; Tools</h2>
+
+    <div class="skills-group anim-hidden">
+        <div class="skills-group-title" data-zh="AI 产品与技术" data-en="AI Product &amp; Technology">AI Product &amp; Technology</div>
+        <div class="skills-tags">
+            <span class="skill-tag" data-zh="LLM 应用 — Multi-Agent 架构设计" data-en="LLM — Multi-Agent Architecture">LLM — Multi-Agent Architecture</span>
+            <span class="skill-tag" data-zh="RAG — 知识检索与增强生成" data-en="RAG — Retrieval-Augmented Generation">RAG — Retrieval-Augmented Generation</span>
+            <span class="skill-tag" data-zh="Prompt Engineering — 结构化提示词设计" data-en="Prompt Engineering — Structured Templates">Prompt Engineering — Structured Templates</span>
+            <span class="skill-tag" data-zh="AI 工具链 — Cursor / Claude Code / Copilot" data-en="AI Toolchain — Cursor / Claude Code / Copilot">AI Toolchain — Cursor / Claude Code / Copilot</span>
+        </div>
+    </div>
+
+    <div class="skills-group anim-hidden">
+        <div class="skills-group-title" data-zh="产品与项目管理" data-en="Product &amp; Project Management">Product &amp; Project Management</div>
+        <div class="skills-tags">
+            <span class="skill-tag" data-zh="PRD &amp; 业务蓝图 — 300+ 页交付" data-en="PRD &amp; Blueprint — 300+ Pages Delivered">PRD &amp; Blueprint — 300+ Pages Delivered</span>
+            <span class="skill-tag" data-zh="PMP 认证 — 敏捷迭代 &amp; UAT 管理" data-en="PMP Certified — Agile Sprints &amp; UAT">PMP Certified — Agile Sprints &amp; UAT</span>
+            <span class="skill-tag" data-zh="跨职能协作 — 研发/测试/业务团队协调" data-en="Cross-functional — R&amp;D / QA / Business Alignment">Cross-functional — R&amp;D / QA / Business Alignment</span>
+            <span class="skill-tag dir dir-consulting" data-zh="Stakeholder 管理 — 跨国管理层汇报" data-en="Stakeholder Mgmt — Multinational Reporting">Stakeholder Mgmt — Multinational Reporting</span>
+        </div>
+    </div>
+
+    <div class="skills-group anim-hidden">
+        <div class="skills-group-title" data-zh="数据分析与工程" data-en="Data Analytics &amp; Engineering">Data Analytics &amp; Engineering</div>
+        <div class="skills-tags">
+            <span class="skill-tag" data-zh="SQL — 复杂多表关联、ETL 管线构建" data-en="SQL — Complex Joins, ETL Pipeline Design">SQL — Complex Joins, ETL Pipeline Design</span>
+            <span class="skill-tag" data-zh="Python — 数据清洗与分析自动化" data-en="Python — Data Cleaning &amp; Analysis Automation">Python — Data Cleaning &amp; Analysis Automation</span>
+            <span class="skill-tag" data-zh="Tableau &amp; Power BI — 实时数据看板搭建" data-en="Tableau &amp; Power BI — Real-time Dashboards">Tableau &amp; Power BI — Real-time Dashboards</span>
+            <span class="skill-tag" data-zh="MySQL / PostgreSQL — 数据库设计与优化" data-en="MySQL / PostgreSQL — Database Design &amp; Tuning">MySQL / PostgreSQL — Database Design &amp; Tuning</span>
+        </div>
+    </div>
+</section>
+
+<hr class="divider">
+
+<!-- Education -->
+<section id="education">
+    <div class="section-label anim-hidden" data-zh="教育背景" data-en="Education">Education</div>
+    <h2 class="section-title anim-hidden" data-zh="教育背景" data-en="Academic Background">Academic Background</h2>
+
+    <div class="edu-card anim-hidden">
+        <div class="edu-header">
+            <div>
+                <div class="edu-school">University of Illinois, Urbana-Champaign</div>
+                <div class="edu-degree" data-zh="信息管理硕士" data-en="Master of Science in Information Management">Master of Science in Information Management</div>
+            </div>
+            <div class="edu-date">2023.08 - 2024.12</div>
+        </div>
+        <div class="edu-detail" data-zh="核心课程：数据仓库与商业智能、数据挖掘、信息建模、数据科学" data-en="Coursework: Data Warehousing &amp; BI, Data Mining, Information Modeling, Data Science">Relevant Coursework: Data Warehousing &amp; BI, Data Mining, Information Modeling, Data Science</div>
+        <div class="edu-highlight">GPA 3.9/4.0 &middot; Top 5%</div>
+    </div>
+
+    <div class="edu-card anim-hidden">
+        <div class="edu-header">
+            <div>
+                <div class="edu-school">University of California, Santa Cruz</div>
+                <div class="edu-degree" data-zh="技术信息管理学士" data-en="Bachelor of Science in Technology Information Management">Bachelor of Science in Technology Information Management</div>
+            </div>
+            <div class="edu-date">2017.09 - 2021.03</div>
+        </div>
+        <div class="edu-detail" data-zh="核心课程：算法与数据结构、计算机网络、数据库管理系统、宏微观经济学" data-en="Coursework: Algorithms &amp; Data Structures, Computer Networks, Database Management Systems, Economics">Relevant Coursework: Algorithms &amp; Data Structures, Computer Networks, Database Management Systems</div>
+    </div>
+</section>
+
+<!-- Footer -->
+<footer>
+    <p>&copy; 2026 Holly Hao. All rights reserved.</p>
+</footer>
+
+<script>
+let currentLang = 'en';
+let currentDir = 'ai-pm';
+
+// ── Language ──
+function switchLang(lang) {
+    currentLang = lang;
+    document.documentElement.lang = lang === 'zh' ? 'zh-CN' : 'en';
+    document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.toggle('active', btn.dataset.lang === lang));
+    document.querySelectorAll('[data-zh][data-en]').forEach(el => {
+        const text = el.getAttribute(`data-${lang}`);
+        if (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA') el.value = text;
+        else el.innerHTML = text;
+    });
+}
+
+// ── Direction ──
+function switchDirection(dir) {
+    currentDir = dir;
+    document.querySelectorAll('.direction-tab').forEach(t => t.classList.toggle('active', t.dataset.dir === dir));
+
+    const subtitles = {
+        'ai-pm':    { en: 'AI Product Manager &middot; Enterprise Systems Architect', zh: 'AI 产品经理 · 企业级系统架构师' },
+        'data':     { en: 'Data Product Manager &middot; Analytics &amp; BI', zh: '数据产品经理 · 数据分析与商业智能' },
+        'consulting':{ en: 'Business Strategy Consultant &middot; Digital Transformation', zh: '商业战略顾问 · 数字化转型' }
+    };
+    const summaries = {
+        'ai-pm': { en: 'PMP-certified product manager with Big 4 consulting background and hands-on experience in AI/LLM product development. Led end-to-end WMS product design for Southeast Asia\'s largest retail conglomerate and drove AI Agent automation strategy at a HK-listed company. UIUC Information Management MS (GPA 3.9/4.0, Top 5%).', zh: 'PMP 认证产品经理，拥有四大咨询背景与 AI/LLM 产品落地经验。主导东南亚最大零售集团的 WMS 全链路产品设计，推动港股上市公司的 AI Agent 自动化战略项目。UIUC 信息管理硕士（GPA 3.9/4.0，专业前 5%）。' },
+        'data': { en: 'Data-driven product manager with strong SQL, Python, and BI tooling expertise. Experienced in building data pipelines, KPI systems, and analytical dashboards for enterprise clients. Proven track record of improving data accuracy and operational efficiency through data-driven solutions. UIUC MS in Information Management (GPA 3.9/4.0).', zh: '数据产品经理，精通 SQL、Python 及 BI 工具。具备数据管线构建、指标体系搭建与可视化看板经验。通过数据驱动方案提升数据准确率与运营效率。UIUC 信息管理硕士（GPA 3.9/4.0，专业前 5%）。' },
+        'consulting': { en: 'PMP-certified consultant with Big 4 (Deloitte, PwC) background specializing in enterprise digital transformation. Experienced in stakeholder management, cross-functional team coordination, and delivering complex multinational projects. UIUC MS in Information Management (GPA 3.9/4.0, Top 5%).', zh: 'PMP 认证咨询顾问，拥有德勤、普华永道四大背景，专注企业数字化转型。擅长 Stakeholder 管理、跨职能团队协调与跨国项目交付。UIUC 信息管理硕士（GPA 3.9/4.0，专业前 5%）。' }
+    };
+
+    document.getElementById('heroSubtitle').innerHTML = subtitles[dir][currentLang];
+    document.getElementById('heroSubtitle').setAttribute('data-en', subtitles[dir].en);
+    document.getElementById('heroSubtitle').setAttribute('data-zh', subtitles[dir].zh);
+    document.getElementById('heroSummary').innerHTML = summaries[dir][currentLang];
+    document.getElementById('heroSummary').setAttribute('data-en', summaries[dir].en);
+    document.getElementById('heroSummary').setAttribute('data-zh', summaries[dir].zh);
+
+    // Highlight direction-specific items (dim others, never hide)
+    document.querySelectorAll('.dir').forEach(el => {
+        el.classList.toggle('dimmed', !el.classList.contains(`dir-${dir}`));
+    });
+}
+
+// ── Scroll animations (Intersection Observer) ──
+const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry, i) => {
+        if (entry.isIntersecting) {
+            setTimeout(() => entry.target.classList.add('visible'), i * 60);
+            observer.unobserve(entry.target);
+        }
+    });
+}, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+
+document.querySelectorAll('.anim-hidden').forEach(el => observer.observe(el));
+
+// ── Event listeners ──
+document.querySelectorAll('.lang-btn').forEach(btn => btn.addEventListener('click', () => switchLang(btn.dataset.lang)));
+document.querySelectorAll('.direction-tab').forEach(t => t.addEventListener('click', () => switchDirection(t.dataset.dir)));
+
+window.addEventListener('scroll', () => {
+    document.getElementById('nav').classList.toggle('scrolled', window.scrollY > 10);
+});
+
+document.querySelectorAll('.nav-links a').forEach(a => {
+    a.addEventListener('click', () => document.getElementById('navLinks').classList.remove('open'));
+});
+
+// Init
+switchDirection('ai-pm');
+</script>
+
+</body>
+</html>
