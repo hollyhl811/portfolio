@@ -261,6 +261,16 @@
         }
         .stat-number { font-size: 1.8rem; font-weight: 800; color: var(--accent); letter-spacing: -0.02em; }
         .stat-label { font-size: 0.8rem; color: var(--text-secondary); margin-top: 4px; }
+        .strength-title {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 0.88rem; font-weight: 700; color: var(--primary);
+            margin-bottom: 8px; display: flex; align-items: center; gap: 8px;
+        }
+        .strength-title::before {
+            content: ''; width: 3px; height: 18px; background: var(--accent);
+            border-radius: 2px; flex-shrink: 0;
+        }
+        .strength-desc { font-size: 0.8rem; color: var(--text-secondary); line-height: 1.7; text-align: left; }
 
         /* ── Experience ── */
         .timeline { position: relative; padding-left: 32px; }
@@ -508,20 +518,20 @@
 <section>
     <div class="stats-grid">
         <div class="stat-card anim-hidden">
-            <div class="stat-number">5+</div>
-            <div class="stat-label" data-zh="年工作经验" data-en="Years Experience">Years Experience</div>
+            <div class="strength-title" data-zh="AI 应用落地 &amp; 数据基建" data-en="AI Implementation &amp; Data Infrastructure">AI Implementation &amp; Data Infrastructure</div>
+            <div class="strength-desc" data-zh="大模型 / Multi-Agent 协作机制设计经验，擅长将业务数据转化为 AI-Ready Data，推动 AI 从辅助分析向自动执行跃升" data-en="LLM &amp; Multi-Agent collaboration design. Expertise in transforming business data into AI-Ready Data, driving AI from assisted analysis to automated execution">LLM &amp; Multi-Agent collaboration design. Expertise in transforming business data into AI-Ready Data, driving AI from assisted analysis to automated execution</div>
         </div>
         <div class="stat-card anim-hidden">
-            <div class="stat-number">3.9</div>
-            <div class="stat-label">GPA / 4.0</div>
+            <div class="strength-title" data-zh="B 端复杂系统 0→1 架构" data-en="Enterprise Systems 0→1 Architecture">Enterprise Systems 0→1 Architecture</div>
+            <div class="strength-desc" data-zh="PMP 认证，企业级系统（WMS / 核心财税）从零到一架构设计与全生命周期管理，跨国跨职能团队拉通" data-en="PMP certified. End-to-end architecture design for enterprise systems (WMS, Tax). Cross-national, cross-functional team orchestration">PMP certified. End-to-end architecture design for enterprise systems (WMS, Tax). Cross-national, cross-functional team orchestration</div>
         </div>
         <div class="stat-card anim-hidden">
-            <div class="stat-number">300+</div>
-            <div class="stat-label" data-zh="页英文蓝图文档" data-en="Pages Blueprint Docs">Pages Blueprint Docs</div>
+            <div class="strength-title" data-zh="数据驱动 &amp; 深行业洞察" data-en="Data-driven &amp; Deep Domain Insight">Data-driven &amp; Deep Domain Insight</div>
+            <div class="strength-desc" data-zh="扎根企服赛道，擅长将前沿 AI 技术与具体业务痛点深度融合，构建数据驱动的决策体系，实现降本增效" data-en="Deep enterprise-tech expertise. Fusing frontier AI with real business pain points to build data-driven decision systems that cut costs and boost efficiency">Deep enterprise-tech expertise. Fusing frontier AI with real business pain points to build data-driven decision systems that cut costs and boost efficiency</div>
         </div>
         <div class="stat-card anim-hidden">
-            <div class="stat-number">50+</div>
-            <div class="stat-label" data-zh="场全英文研讨会" data-en="English Workshops Led">English Workshops Led</div>
+            <div class="strength-title" data-zh="全球化项目基因" data-en="Global Project DNA">Global Project DNA</div>
+            <div class="strength-desc" data-zh="UIUC 硕士 / 英语母语级工作能力，四大咨询背景，丰富的跨时区跨文化团队协作经验" data-en="UIUC MS, native-level English, Big 4 consulting background. Extensive cross-timezone, cross-cultural collaboration experience">UIUC MS, native-level English, Big 4 consulting background. Extensive cross-timezone, cross-cultural collaboration experience</div>
         </div>
     </div>
 </section>
