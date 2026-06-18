@@ -219,6 +219,7 @@
         .direction-tabs {
             display: flex; justify-content: center; flex-wrap: wrap; gap: 10px;
             margin: 18px auto 4px; animation: fadeUp 0.6s ease-out 0.15s both;
+            position: relative;
         }
         .direction-tab {
             padding: 9px 20px; border-radius: 100px; font-size: 0.82rem;
@@ -237,6 +238,36 @@
         .direction-tab[data-dir="ai-pm"].active       { background: #0ea5e9; color: #fff; border-color: #0ea5e9; box-shadow: 0 4px 18px rgba(14,165,233,0.35); }
         .direction-tab[data-dir="data"].active         { background: #10b981; color: #fff; border-color: #10b981; box-shadow: 0 4px 18px rgba(16,185,129,0.35); }
         .direction-tab[data-dir="consulting"].active   { background: #f59e0b; color: #fff; border-color: #f59e0b; box-shadow: 0 4px 18px rgba(245,158,11,0.35); }
+
+        /* Tab hint tooltip */
+        .tab-hint {
+            position: absolute; display: flex; align-items: center; gap: 5px;
+            background: #fff; color: #1a1a2e;
+            padding: 6px 14px; border-radius: 100px;
+            font-size: 0.76rem; font-weight: 600;
+            font-family: 'Montserrat', sans-serif;
+            box-shadow: 0 6px 24px rgba(0,0,0,0.2);
+            pointer-events: none; white-space: nowrap;
+            opacity: 0; transform: translateX(-50%);
+            transition: left 0.55s cubic-bezier(0.34, 1.56, 0.64, 1),
+                        top 0.55s cubic-bezier(0.34, 1.56, 0.64, 1),
+                        opacity 0.4s ease;
+            z-index: 10;
+        }
+        .tab-hint.show { opacity: 1; }
+        .tab-hint::before {
+            content: ''; position: absolute; top: -4px; left: 50%;
+            transform: translateX(-50%) rotate(45deg);
+            width: 9px; height: 9px; background: #fff;
+        }
+        .tab-hint-finger {
+            font-size: 0.95rem; display: inline-block;
+            animation: fingerBounce 1.1s ease-in-out infinite;
+        }
+        @keyframes fingerBounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-3px); }
+        }
 
         /* ── Sections ── */
         section { padding: 56px 28px; max-width: 1040px; margin: 0 auto; }
@@ -499,6 +530,10 @@
         <button class="direction-tab active" data-dir="ai-pm">AI Product Manager</button>
         <button class="direction-tab" data-dir="data">Data Product</button>
         <button class="direction-tab" data-dir="consulting">Business Consulting</button>
+        <div class="tab-hint" id="tabHint">
+            <span class="tab-hint-finger">👆</span>
+            <span class="tab-hint-text"></span>
+        </div>
     </div>
     <p class="hero-subtitle" id="heroSubtitle" data-zh="AI 产品经理 · 大模型与多智能体" data-en="AI Product Manager &middot; LLM &amp; Multi-Agent">AI Product Manager &middot; LLM &amp; Multi-Agent</p>
     <div class="hero-contact">
@@ -745,6 +780,7 @@ function switchLang(lang) {
         if (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA') el.value = text;
         else el.innerHTML = text;
     });
+    if (typeof positionHint === 'function' && hintTimer) positionHint();
 }
 
 // ── Direction ──
@@ -790,7 +826,10 @@ document.querySelectorAll('.anim-hidden').forEach(el => observer.observe(el));
 
 // ── Event listeners ──
 document.querySelectorAll('.lang-btn').forEach(btn => btn.addEventListener('click', () => switchLang(btn.dataset.lang)));
-document.querySelectorAll('.direction-tab').forEach(t => t.addEventListener('click', () => switchDirection(t.dataset.dir)));
+document.querySelectorAll('.direction-tab').forEach(t => t.addEventListener('click', () => {
+    switchDirection(t.dataset.dir);
+    stopHintCycle();
+}));
 
 window.addEventListener('scroll', () => {
     document.getElementById('nav').classList.toggle('scrolled', window.scrollY > 10);
@@ -800,8 +839,52 @@ document.querySelectorAll('.nav-links a').forEach(a => {
     a.addEventListener('click', () => document.getElementById('navLinks').classList.remove('open'));
 });
 
+// ── Tab hint cycling ──
+let hintTimer = null;
+let hintIndex = 0;
+let hintRound = 0;
+const hintMessages = {
+    'ai-pm':     { en: 'AI PM · Click to explore', zh: 'AI 产品经理 · 点这里查看' },
+    'data':      { en: 'Data Product · Click to explore', zh: '数据产品 · 点这里查看' },
+    'consulting':{ en: 'Consulting · Click to explore', zh: '商业咨询 · 点这里查看' }
+};
+
+function positionHint() {
+    const hint = document.getElementById('tabHint');
+    const tabs = document.querySelectorAll('.direction-tab');
+    if (!hint || !tabs.length) return;
+    const tab = tabs[hintIndex];
+    hint.style.left = (tab.offsetLeft + tab.offsetWidth / 2) + 'px';
+    hint.style.top = (tab.offsetTop + tab.offsetHeight + 12) + 'px';
+    const dir = tab.dataset.dir;
+    hint.querySelector('.tab-hint-text').textContent = hintMessages[dir][currentLang];
+}
+
+function startHintCycle() {
+    const hint = document.getElementById('tabHint');
+    if (!hint) return;
+    hintIndex = 0; hintRound = 0;
+    positionHint();
+    hint.classList.add('show');
+    hintTimer = setInterval(() => {
+        hintIndex = (hintIndex + 1) % 3;
+        if (hintIndex === 0) hintRound++;
+        if (hintRound >= 2) { clearInterval(hintTimer); hintTimer = null; setTimeout(() => hint.classList.remove('show'), 4000); return; }
+        positionHint();
+    }, 4000);
+}
+
+function stopHintCycle() {
+    if (hintTimer) { clearInterval(hintTimer); hintTimer = null; }
+    const hint = document.getElementById('tabHint');
+    if (hint) hint.classList.remove('show');
+}
+
+window.addEventListener('resize', () => { if (hintTimer) positionHint(); });
+
 // Init
 switchDirection('ai-pm');
+setTimeout(startHintCycle, 1800);
 </script>
 
 </body>
