@@ -217,20 +217,26 @@
 
         /* ── Direction Tabs ── */
         .direction-tabs {
-            display: flex; justify-content: center; gap: 8px;
-            padding: 52px 28px 0; max-width: 1040px; margin: 0 auto;
+            display: flex; justify-content: center; flex-wrap: wrap; gap: 10px;
+            margin: 18px 0 4px; animation: fadeUp 0.6s ease-out 0.15s both;
         }
         .direction-tab {
-            padding: 9px 22px; border-radius: 100px; font-size: 0.84rem;
-            font-weight: 600; cursor: pointer; border: 1.5px solid var(--border);
-            background: transparent; color: var(--text-secondary);
-            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            padding: 9px 20px; border-radius: 100px; font-size: 0.82rem;
+            font-weight: 600; cursor: pointer; border: 1.5px solid;
+            background: transparent; font-family: 'Montserrat', sans-serif;
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1); letter-spacing: 0.01em;
         }
-        .direction-tab:hover { border-color: var(--accent-border); color: var(--accent); }
-        .direction-tab.active {
-            background: var(--accent); color: #fff; border-color: var(--accent);
-            box-shadow: 0 2px 12px rgba(0,123,191,0.2);
-        }
+        .direction-tab[data-dir="ai-pm"]        { color: #7dd3fc; border-color: rgba(125,211,252,0.35); }
+        .direction-tab[data-dir="data"]         { color: #6ee7b7; border-color: rgba(110,231,183,0.35); }
+        .direction-tab[data-dir="consulting"]   { color: #fcd34d; border-color: rgba(252,211,77,0.35); }
+
+        .direction-tab[data-dir="ai-pm"]:hover       { background: rgba(125,211,252,0.12); border-color: #7dd3fc; }
+        .direction-tab[data-dir="data"]:hover         { background: rgba(110,231,183,0.12); border-color: #6ee7b7; }
+        .direction-tab[data-dir="consulting"]:hover   { background: rgba(252,211,77,0.12); border-color: #fcd34d; }
+
+        .direction-tab[data-dir="ai-pm"].active       { background: #0ea5e9; color: #fff; border-color: #0ea5e9; box-shadow: 0 4px 18px rgba(14,165,233,0.35); }
+        .direction-tab[data-dir="data"].active         { background: #10b981; color: #fff; border-color: #10b981; box-shadow: 0 4px 18px rgba(16,185,129,0.35); }
+        .direction-tab[data-dir="consulting"].active   { background: #f59e0b; color: #fff; border-color: #f59e0b; box-shadow: 0 4px 18px rgba(245,158,11,0.35); }
 
         /* ── Sections ── */
         section { padding: 56px 28px; max-width: 1040px; margin: 0 auto; }
@@ -489,7 +495,12 @@
 <header class="hero">
     <div class="hero-label" data-zh="开放求职中" data-en="Open to Opportunities">Open to Opportunities</div>
     <h1>Holly Hao <span>/ 郝莲</span></h1>
-    <p class="hero-subtitle" id="heroSubtitle" data-zh="AI 产品经理 · 企业级系统架构师" data-en="AI Product Manager &middot; Enterprise Systems Architect">AI Product Manager &middot; Enterprise Systems Architect</p>
+    <div class="direction-tabs">
+        <button class="direction-tab active" data-dir="ai-pm">AI Product Manager</button>
+        <button class="direction-tab" data-dir="data">Data Product</button>
+        <button class="direction-tab" data-dir="consulting">Business Consulting</button>
+    </div>
+    <p class="hero-subtitle" id="heroSubtitle" data-zh="AI 产品经理 · 大模型与多智能体" data-en="AI Product Manager &middot; LLM &amp; Multi-Agent">AI Product Manager &middot; LLM &amp; Multi-Agent</p>
     <div class="hero-contact">
         <a href="mailto:hhao68601@gmail.com">&#9993; hhao68601@gmail.com</a>
         <span class="dot"></span>
@@ -506,13 +517,6 @@
 </header>
 
 <hr class="hero-divider">
-
-<!-- Direction Tabs -->
-<div class="direction-tabs anim-hidden">
-    <button class="direction-tab active" data-dir="ai-pm">AI Product Manager</button>
-    <button class="direction-tab" data-dir="data">Data Product</button>
-    <button class="direction-tab" data-dir="consulting">Business Consulting</button>
-</div>
 
 <!-- Stats -->
 <section>
@@ -749,7 +753,7 @@ function switchDirection(dir) {
     document.querySelectorAll('.direction-tab').forEach(t => t.classList.toggle('active', t.dataset.dir === dir));
 
     const subtitles = {
-        'ai-pm':    { en: 'AI Product Manager &middot; Enterprise Systems Architect', zh: 'AI 产品经理 · 企业级系统架构师' },
+        'ai-pm':    { en: 'AI Product Manager &middot; LLM &amp; Multi-Agent', zh: 'AI 产品经理 · 大模型与多智能体' },
         'data':     { en: 'Data Product Manager &middot; Analytics &amp; BI', zh: '数据产品经理 · 数据分析与商业智能' },
         'consulting':{ en: 'Business Strategy Consultant &middot; Digital Transformation', zh: '商业战略顾问 · 数字化转型' }
     };
