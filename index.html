@@ -153,12 +153,16 @@
         }
         .hero > * { position: relative; z-index: 2; max-width: 1040px; margin-left: auto; margin-right: auto; }
 
+        .hero-name-row {
+            display: flex; align-items: center; justify-content: center;
+            gap: 24px; flex-wrap: wrap;
+        }
+        .hero-name-row h1 { margin-bottom: 0; }
         .hero-photo {
-            width: 110px; border-radius: 12px; display: block;
-            margin: 0 auto 20px;
+            width: 130px; border-radius: 12px;
             box-shadow: 0 8px 32px rgba(0,0,0,0.35);
             border: 3px solid rgba(255,255,255,0.14);
-            animation: fadeUp 0.6s ease-out;
+            animation: fadeUp 0.6s ease-out 0.1s both;
         }
 
         .hero-label {
