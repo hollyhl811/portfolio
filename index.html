@@ -153,17 +153,17 @@
         }
         .hero > * { position: relative; z-index: 2; max-width: 1040px; margin-left: auto; margin-right: auto; }
 
-        .hero-name-row {
+        .hero-layout {
             display: flex; align-items: center; justify-content: center;
-            gap: 24px; flex-wrap: wrap;
+            gap: 56px; flex-wrap: wrap;
         }
-        .hero-name-row h1 { margin-bottom: 0; }
         .hero-photo {
-            width: 130px; border-radius: 12px;
+            width: 160px; border-radius: 14px; flex-shrink: 0;
             box-shadow: 0 8px 32px rgba(0,0,0,0.35);
             border: 3px solid rgba(255,255,255,0.14);
             animation: fadeUp 0.6s ease-out 0.1s both;
         }
+        .hero-content { flex: 1; min-width: 300px; }
 
         .hero-label {
             display: inline-block; background: rgba(0,123,191,0.2); color: #7dd3fc;
@@ -542,34 +542,37 @@
 
 <!-- Hero -->
 <header class="hero">
-    <div class="hero-label" data-zh="开放求职中" data-en="Open to Opportunities">Open to Opportunities</div>
-    <div class="hero-name-row">
-        <img src="Holly_Hao_Photo.jpeg" alt="Holly Hao" class="hero-photo">
+  <div class="hero-layout">
+    <img src="Holly_Hao_Photo.jpeg" alt="Holly Hao" class="hero-photo">
+    <div class="hero-content">
+        <div class="hero-label" data-zh="开放求职中" data-en="Open to Opportunities">Open to Opportunities</div>
         <h1>Holly Hao <span>/ 郝莲</span></h1>
-    </div>
-    <div class="direction-tabs">
-        <button class="direction-tab active" data-dir="ai-pm">AI Product Manager</button>
-        <button class="direction-tab" data-dir="data">Data Product</button>
-        <button class="direction-tab" data-dir="consulting">Business Consulting</button>
-        <div class="tab-hint" id="tabHint">
-            <span class="tab-hint-finger">👆</span>
-            <span class="tab-hint-text"></span>
+        <div class="direction-tabs">
+            <button class="direction-tab active" data-dir="ai-pm">AI Product Manager</button>
+            <button class="direction-tab" data-dir="data">Data Product</button>
+            <button class="direction-tab" data-dir="consulting">Business Consulting</button>
+            <div class="tab-hint" id="tabHint">
+                <span class="tab-hint-finger">👆</span>
+                <span class="tab-hint-text"></span>
+            </div>
+        </div>
+        <p class="hero-subtitle" id="heroSubtitle" data-zh="AI 产品经理 · 大模型与多智能体" data-en="AI Product Manager &middot; LLM &amp; Multi-Agent">AI Product Manager &middot; LLM &amp; Multi-Agent</p>
+        <div class="hero-contact">
+            <a href="mailto:hhao68601@gmail.com">&#9993; hhao68601@gmail.com</a>
+            <span class="dot"></span>
+            <a href="https://www.linkedin.com/in/lian-hao-66440a149/" target="_blank">in LinkedIn</a>
+            <span class="dot"></span>
+            <span style="font-size: 0.85rem;">&#9742; (+86) 159-7216-8601</span>
+        </div>
+        <p class="hero-summary" id="heroSummary" data-zh="PMP 认证产品经理，拥有四大咨询背景与 AI/LLM 产品落地经验。主导东南亚最大零售集团的 WMS 全链路产品设计，推动港股上市公司的 AI Agent 自动化战略项目。UIUC 信息管理硕士（GPA 3.9/4.0，专业前 5%）。" data-en="PMP-certified product manager with Big 4 consulting background and hands-on experience in AI/LLM product development. Led end-to-end WMS product design for Southeast Asia's largest retail conglomerate and drove AI Agent automation strategy at a HK-listed company. UIUC Information Management MS (GPA 3.9/4.0, Top 5%).">PMP-certified product manager with Big 4 consulting background and hands-on experience in AI/LLM product development. Led end-to-end WMS product design for Southeast Asia's largest retail conglomerate and drove AI Agent automation strategy at a HK-listed company. UIUC Information Management MS (GPA 3.9/4.0, Top 5%).</p>
+        <div class="hero-actions">
+            <a href="mailto:hhao68601@gmail.com" class="btn btn-primary" data-zh="&#9993; 联系我" data-en="&#9993; Get in Touch">&#9993; Get in Touch</a>
+            <a href="Holly_Hao_Resume.pdf" download class="btn btn-outline" data-zh="⬇ 下载简历" data-en="⬇ Download Resume">⬇ Download Resume</a>
+            <a href="#experience" class="btn btn-outline" data-zh="查看经历" data-en="View Experience">View Experience</a>
         </div>
     </div>
-    <p class="hero-subtitle" id="heroSubtitle" data-zh="AI 产品经理 · 大模型与多智能体" data-en="AI Product Manager &middot; LLM &amp; Multi-Agent">AI Product Manager &middot; LLM &amp; Multi-Agent</p>
-    <div class="hero-contact">
-        <a href="mailto:hhao68601@gmail.com">&#9993; hhao68601@gmail.com</a>
-        <span class="dot"></span>
-        <a href="https://www.linkedin.com/in/lian-hao-66440a149/" target="_blank">in LinkedIn</a>
-        <span class="dot"></span>
-        <span style="font-size: 0.85rem;">&#9742; (+86) 159-7216-8601</span>
-    </div>
-    <p class="hero-summary" id="heroSummary" data-zh="PMP 认证产品经理，拥有四大咨询背景与 AI/LLM 产品落地经验。主导东南亚最大零售集团的 WMS 全链路产品设计，推动港股上市公司的 AI Agent 自动化战略项目。UIUC 信息管理硕士（GPA 3.9/4.0，专业前 5%）。" data-en="PMP-certified product manager with Big 4 consulting background and hands-on experience in AI/LLM product development. Led end-to-end WMS product design for Southeast Asia's largest retail conglomerate and drove AI Agent automation strategy at a HK-listed company. UIUC Information Management MS (GPA 3.9/4.0, Top 5%).">PMP-certified product manager with Big 4 consulting background and hands-on experience in AI/LLM product development. Led end-to-end WMS product design for Southeast Asia's largest retail conglomerate and drove AI Agent automation strategy at a HK-listed company. UIUC Information Management MS (GPA 3.9/4.0, Top 5%).</p>
-    <div class="hero-actions">
-        <a href="mailto:hhao68601@gmail.com" class="btn btn-primary" data-zh="&#9993; 联系我" data-en="&#9993; Get in Touch">&#9993; Get in Touch</a>
-        <a href="Holly_Hao_Resume.pdf" download class="btn btn-outline" data-zh="⬇ 下载简历" data-en="⬇ Download Resume">⬇ Download Resume</a>
-        <a href="#experience" class="btn btn-outline" data-zh="查看经历" data-en="View Experience">View Experience</a>
-    </div>
+  </div>
+</header>
 </header>
 
 <hr class="hero-divider">
