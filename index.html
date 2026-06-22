@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -111,11 +111,16 @@
         .lang-toggle:hover { border-color: rgba(255,255,255,0.5); }
         nav.scrolled .lang-toggle:hover { border-color: var(--accent-border); }
         .lang-btn {
-            background: transparent; border: none; padding: 5px 14px;
+            background: transparent; border: none; padding: 7px 16px;
             font-family: 'Montserrat', sans-serif;
-            font-size: 0.78rem; font-weight: 700; cursor: pointer;
+            font-size: 0.85rem; font-weight: 700; cursor: pointer;
             color: rgba(255,255,255,0.7); transition: all 0.25s; letter-spacing: 0.02em;
         }
+        .lang-globe {
+            display: inline-flex; align-items: center; padding: 0 6px 0 12px;
+            font-size: 0.9rem; opacity: 0.6;
+        }
+        nav.scrolled .lang-globe { opacity: 0.5; }
         nav.scrolled .lang-btn { color: var(--text-secondary); }
         .lang-btn.active { background: var(--accent); color: #fff; }
 
@@ -514,8 +519,9 @@
                 <li><a href="#education" data-zh="教育" data-en="Education">Education</a></li>
             </ul>
             <div class="lang-toggle">
-                <button class="lang-btn active" data-lang="en">EN</button>
-                <button class="lang-btn" data-lang="zh">中</button>
+                <span class="lang-globe">🌐</span>
+                <button class="lang-btn" data-lang="en">EN</button>
+                <button class="lang-btn active" data-lang="zh">中</button>
             </div>
             <button class="mobile-toggle" onclick="document.getElementById('navLinks').classList.toggle('open')">☰</button>
         </div>
@@ -767,7 +773,7 @@
 </footer>
 
 <script>
-let currentLang = 'en';
+let currentLang = 'zh';
 let currentDir = 'ai-pm';
 
 // ── Language ──
@@ -883,6 +889,7 @@ function stopHintCycle() {
 window.addEventListener('resize', () => { if (hintTimer) positionHint(); });
 
 // Init
+switchLang('zh');
 switchDirection('ai-pm');
 setTimeout(startHintCycle, 1800);
 </script>
